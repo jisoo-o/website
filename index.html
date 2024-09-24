@@ -184,6 +184,41 @@
         </td>
       </tr>
     </tbody></table>
+<!-- Project : button -->
+    <tr onmouseout="button_stop()" onmouseover="button_start()" >
+      <td style="padding:20px;width:25%;vertical-align:middle">
+        <div class="two" id="button_image" style="display: inline;"> 
+          <video  width="320" height="180" muted autoplay loop>
+          <source src="images/button/button.mp4" alt="button mp4" width="320" height="180" type="video/mp4">
+          </video>
+        </div>
+          <img src='images/button/button.png' alt="button" width="320" height="180">
+        </div>
+        <script type="text/javascript">
+          function button_start() {
+            document.getElementById('button_image').style.opacity = "1";
+          }
+    
+          function button_stop() {
+            document.getElementById('button_image').style.opacity = "0";
+          }
+          button_stop()
+        </script>
+      </td>
+      <td style="padding:20px;width:75%;vertical-align:middle">
+        <papertitle>button: Outfit recommendation&managing application</papertitle>
+        <br>
+        <em>Capstone project</em>, 2020
+        <br>
+        <a href="https://github.com/jisoo-o/Button_Android">Code</a>
+        /
+        <a href="https://www.youtube.com/watch?v=_Rs2HpbxWxs&t=2s">Video</a>
+
+        <p></p>
+        <p>
+        User outfit recommendation and closet managing Android application. Recommendation is based on bi-lstm model. Worked as AI engineer to finetune pre-trained model, make own dataset and implement KNN algorithm.</p>
+      </td>
+    </tr>
 
       </tbody></table>
       </tbody></table>
