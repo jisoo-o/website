@@ -185,16 +185,47 @@
       </tr>
     </tbody></table>
     <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-    
+<!-- Project : stock reader -->
+<tr onmouseout="stock_stop()" onmouseover="stock_start()" >
+  <td style="padding:20px;width:25%;vertical-align:middle">
+    <div class="two" id="stock_image" style="display: inline;"> 
+      <video  width="320" height="180" muted autoplay loop>
+      <source src="images/projects/stockreader/" alt="stock mp4" width="320" height="180" type="video/mp4">
+      </video>
+    </div>
+      <img src='images/stockreader/stockreader.png' alt="stock" width="320" height="180">
+    </div>
+    <script type="text/javascript">
+      function stock_start() {
+        document.getElementById('stock_image').style.opacity = "1";
+      }
+
+      function stock_stop() {
+        document.getElementById('stock_image').style.opacity = "0";
+      }
+      stock_stop()
+    </script>
+  </td>
+  <td style="padding:20px;width:75%;vertical-align:middle">
+    <papertitle>Stock Reader: Stock prediction service</papertitle>
+    <br>
+    <em>Internshipat Peoplespace Inc.</em>, 2021
+    <br>
+    <a href="https://github.com/cali-in-cau/auto-ta-ml">Code</a>
+    <p></p>
+    <p>
+    Stock prediction web service. Worked as AI engineer. </p>
+  </td>
+</tr>    
 <!-- Project : button -->
     <tr onmouseout="button_stop()" onmouseover="button_start()" >
       <td style="padding:20px;width:25%;vertical-align:middle">
         <div class="two" id="button_image" style="display: inline;"> 
           <video  width="320" height="180" muted autoplay loop>
-          <source src="images/button/button.mp4" alt="button mp4" width="320" height="180" type="video/mp4">
+          <source src="images/projects/button/button.mp4" alt="button mp4" width="320" height="180" type="video/mp4">
           </video>
         </div>
-          <img src='images/button/button.png' alt="button" width="320" height="180">
+          <img src='images/projects/button/button.png' alt="button" width="320" height="180">
         </div>
         <script type="text/javascript">
           function button_start() {
@@ -217,9 +248,10 @@
         <a href="https://www.youtube.com/watch?v=_Rs2HpbxWxs&t=2s">Video</a>
         <p></p>
         <p>
-        User outfit recommendation and closet managing Android application.</p>
+        User outfit recommendation and closet managing Android application. Worked as AI engineer and UI designer.</p>
       </td>
     </tr>
+
 
 <!-- Awards section -->
 <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
@@ -259,6 +291,7 @@
     </tr>
   </tbody>
 </table>
+
 <!---End--->
       </tbody></table>
       </tbody></table>
