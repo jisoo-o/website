@@ -177,6 +177,43 @@
       </td>
     </tr>
 
+    <tr onmouseout="survey_stop()" onmouseover="survey_start()" >
+      <td style="padding:20px;width:25%;vertical-align:middle">
+        <div class="two" id="survey_image" style="display: inline;"> 
+          <video  width="320" height="180" muted autoplay loop>
+          <source src="images/survey/survey.mp4" alt="survey mp4" width="320" height="180" type="video/mp4">
+          </video>
+        </div>
+          <img src='images/survey/survey.png' alt="survey" width="320" height="180">
+        </div>
+        <script type="text/javascript">
+          function survey_start() {
+            document.getElementById('survey_image').style.opacity = "1";
+          }
+    
+          function survey_stop() {
+            document.getElementById('survey_image').style.opacity = "0";
+          }
+          survey_stop()
+        </script>
+      </td>
+      <td style="padding:20px;width:75%;vertical-align:middle">
+        <papertitle>Speech Separation through Audio-Visual Learning: A Survey</papertitle>
+        <br>
+        <strong>Jisoo Park</strong>,
+        <a href="https://sites.google.com/view/cau-cvml/cvmlcau/junseokkwon?authuser=0">Junseok Kwon</a><sup>†</sup>,
+        <br>
+        <em>IEIE</em>, 2023
+        <br>
+        <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9621177">arXiv</a>
+        <p>
+          Summer Annual Conference of The Institute of Electronics and Information Engineers (<strong>IEIE</strong>), Jeju Island, Korea, 2023
+        </p>
+        <p>
+        </p>
+      </td>
+    </tr>
+
     <tr onmouseout="tryon_stop()" onmouseover="tryon_start()" >
       <td style="padding:20px;width:25%;vertical-align:middle">
         <div class="two" id="tryon_image" style="display: inline;"> 
@@ -211,10 +248,10 @@
           The 12th International Conference on ICT Convergence (<strong>ICTC</strong>), Jeju Island, Korea, 2021
         </p>
         <p>
-         
         </p>
       </td>
     </tr>
+
 <!-- Project section -->
     <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       <tr>
