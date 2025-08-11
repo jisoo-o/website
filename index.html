@@ -24,6 +24,20 @@
       display: block;
     }
 
+    /* 모바일 전용 스타일 */
+    @media (max-width: 700px) {
+      .intro-left, .intro-right {
+        display: block;
+        width: 100% !important;
+      }
+
+      /* 프로필 사진 크기 대폭 축소 */
+      .profile-wrapper {
+        width: 120px;      /* 모바일에서는 120px로 축소 */
+        height: 120px;
+        margin: 10px auto; /* 가운데 정렬 */
+      }
+    }
     .thumb-cell { width: 36%; vertical-align: middle; padding: 20px; }
     .text-cell  { width: 64%; vertical-align: middle; padding: 20px; }
     .thumb      { width: 100%; height: auto; display: block; border-radius: 8px; }
