@@ -9,7 +9,6 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📍</text></svg>">
 
   <style>
-    /* 프로필 원형 */
     .profile-wrapper {
       width: 260px;
       height: 260px;
@@ -24,18 +23,16 @@
       display: block;
     }
 
-    /* 모바일 전용 스타일 */
     @media (max-width: 700px) {
       .intro-left, .intro-right {
         display: block;
         width: 100% !important;
       }
 
-      /* 프로필 사진 크기 대폭 축소 */
       .profile-wrapper {
-        width: 120px;      /* 모바일에서는 120px로 축소 */
+        width: 120px;     
         height: 120px;
-        margin: 10px auto; /* 가운데 정렬 */
+        margin: 10px auto; 
       }
     }
     .thumb-cell { width: 36%; vertical-align: middle; padding: 20px; }
@@ -126,6 +123,23 @@
               <tr>
                 <td style="padding:20px;">
                   <heading>Research</heading>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Research item temp -->
+          <table class="section-table">
+            <tbody>
+              <tr onmouseover="asd_start()" onmouseout="asd_stop()">
+                <td class="thumb-cell">
+                  <img src="images/asd/asd.png" alt="asd" class="thumb">
+                </td>
+                <td class="text-cell">
+                  <papertitle>Beyond the Lips: Robust Speaker Detection via Self-Supervised Disentangled Latent Representations</papertitle>
+                  <br>
+                  <em>Under review</em>, 2025
+                  <br>
                 </td>
               </tr>
             </tbody>
