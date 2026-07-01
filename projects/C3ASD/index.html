@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="C³ASD: Multi-Level Consistency-Driven Representation Learning for Robust Active Speaker Detection — ECCV 2026">
+  <meta name="description" content="C³ASD: Multi-Level Consistency-Driven Representation Learning for Robust Active Speaker Detection, ECCV 2026">
   <meta name="author" content="Jin Hong, Jisoo Park, Junseok Kwon">
-  <title>C³ASD — ECCV 2026</title>
+  <title>C³ASD | ECCV 2026</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -312,8 +312,8 @@
     .table-wrap table {
       width: 100%;
       border-collapse: collapse;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 0.8rem;
       white-space: nowrap;
     }
 
@@ -445,7 +445,7 @@
   <div class="hero">
     <div class="venue-pill">ECCV 2026</div>
     <h1>C&sup3;ASD: Multi-Level Consistency-Driven Representation Learning for Robust Active Speaker Detection</h1>
-    <p class="subtitle">Class-aligned, modality-invariant embeddings that stay robust when audio and video break down.</p>
+    <p class="subtitle">Multi-level consistency constraints for audio-visual active speaker detection under real-world corruption.</p>
     <p class="authors"><strong>Jin Hong</strong>*&sup1;, <strong>Jisoo Park</strong>*&sup1;, <strong>Junseok Kwon</strong>&sup1;</p>
     <p class="affiliation">&sup1;Chung-Ang University, Seoul, Republic of Korea</p>
     <p class="equal-note">* Equal contribution.</p>
@@ -462,11 +462,11 @@
 <div class="wrap">
   <section>
     <figure class="figure-slot">
-      <img src="assets/fig1.png" alt="C³ASD teaser — Multi-Level Consistency for Robust ASD"
+      <img src="assets/fig1.png" alt="C³ASD teaser"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-      <div class="placeholder">fig1.png — Teaser figure</div>
+      <div class="placeholder">fig1.png</div>
       <figcaption>
-        <strong>Multi-Level Consistency for Robust ASD.</strong> In real-world active speaker detection, audio and visual streams are often corrupted by noise and occlusion. Existing models learn modality-clustered representations that are fragile under such degradations. In contrast, our multi-level consistency framework produces class-aligned, modality-invariant embeddings that stay robust across diverse corruption scenarios.
+        <strong>Figure 1.</strong> In real-world active speaker detection, audio and visual streams are often corrupted by noise and occlusion. Existing models learn modality-clustered representations that degrade under such conditions. Our multi-level consistency framework produces class-aligned, modality-invariant embeddings that remain robust under various corruption types.
       </figcaption>
     </figure>
   </section>
@@ -476,26 +476,25 @@
 <div class="wrap">
   <section>
     <p class="eyebrow">Abstract</p>
-    <h2>Consistency, not just fusion</h2>
     <p class="lead">
       Active Speaker Detection determines whether a visible person in a video is speaking at each moment. While recent audio&ndash;visual fusion methods perform well on clean data, they degrade under real-world corruptions such as background noise, occlusion, or simultaneous modality degradation.
     </p>
     <p>
-      We attribute this limitation to the absence of explicit consistency constraints that promote robust, semantically aligned representations across modalities. Without such guidance, models tend to learn fragile modality-specific shortcuts that fail under corrupted conditions. We propose <strong>C&sup3;ASD</strong>, a multi-level consistency-driven framework with three complementary constraints: <strong>embedding-level inter-modality consistency</strong> aligns audio&ndash;visual representations during speech; <strong>sequence-level intra-modality consistency</strong> separates speaking and non-speaking clusters via track-aware contrastive learning; and <strong>prediction-level consistency</strong> stabilizes fusion through knowledge distillation. Extensive experiments demonstrate significant improvements under diverse audio, visual, and joint corruptions, while maintaining competitive performance on clean data.
+      We attribute this to the absence of explicit consistency constraints that align representations across modalities. Without such constraints, models rely on modality-specific shortcuts that fail under corruption. We propose <strong>C&sup3;ASD</strong>, a multi-level consistency-driven framework with three complementary constraints: <strong>embedding-level inter-modality consistency</strong> aligns audio&ndash;visual representations during speech; <strong>sequence-level intra-modality consistency</strong> separates speaking and non-speaking clusters via track-aware contrastive learning; and <strong>prediction-level consistency</strong> stabilizes fusion through knowledge distillation. Experiments show consistent improvements under audio, visual, and joint corruptions, while maintaining performance on clean data.
     </p>
 
     <div class="card-grid">
       <div class="card">
         <h3>A robustness diagnosis</h3>
-        <p>We reveal that the absence of explicit multi-level modality consistency fundamentally limits the robustness of existing audio&ndash;visual ASD models under real-world corruption.</p>
+        <p>We show that the lack of explicit multi-level modality consistency limits the robustness of existing audio-visual ASD models under real-world corruption.</p>
       </div>
       <div class="card">
         <h3>Three consistency losses</h3>
-        <p>Speaking-aware inter-modality alignment, sequence-level intra-modality regularization, and prediction-level knowledge distillation regularize representation learning directly.</p>
+        <p>Speaking-aware inter-modality alignment, sequence-level intra-modality regularization, and prediction-level knowledge distillation.</p>
       </div>
       <div class="card">
         <h3>Robust and lightweight</h3>
-        <p>Large gains under audio, visual, and joint corruption with no extra annotations, no corrupted training data, and virtually no added parameters.</p>
+        <p>Consistent gains under audio, visual, and joint corruption with no extra annotations, no corrupted training data, and no added parameters.</p>
       </div>
     </div>
   </section>
@@ -507,15 +506,15 @@
     <p class="eyebrow">Method</p>
     <h2>Multi-level consistency regularization</h2>
     <p>
-      Built on the lightweight Light-ASD backbone, C&sup3;ASD keeps the two-stream encoder and BGRU classifier untouched and adds three consistency signals that operate at the embedding and prediction levels. They require no external data or architectural changes and introduce no learnable parameters beyond a single audio-only classification head.
+      Built on Light-ASD, C&sup3;ASD keeps the two-stream encoder and BGRU classifier unchanged and adds three consistency signals at the embedding and prediction levels. No external data or architectural changes are required, and no learnable parameters are introduced beyond a single audio-only classification head.
     </p>
 
     <figure class="figure-slot">
       <img src="assets/fig2.png" alt="C³ASD framework overview"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-      <div class="placeholder">fig2.png — Framework overview</div>
+      <div class="placeholder">fig2.png</div>
       <figcaption>
-        <strong>Overview of the C&sup3;ASD framework.</strong> Visual face crops and audio MFCCs pass through modality-specific encoders. Three constraints act at multiple levels: (1) embedding-level inter-modality consistency (&Lscr;<sub>inter</sub>) aligns audio and visual embeddings via cosine similarity during active speech; (2) sequence-level intra-modality consistency (&Lscr;<sub>intra</sub>) applies track-aware supervised contrastive learning within each modality; and (3) prediction-level consistency (&Lscr;<sub>pred</sub>) distills from the confidence-masked audio&ndash;visual prediction (teacher) to the unimodal predictions (students).
+        <strong>Figure 2.</strong> Visual face crops and audio MFCCs pass through modality-specific encoders. Three constraints operate at multiple levels: (1) embedding-level inter-modality consistency (&Lscr;<sub>inter</sub>) aligns audio and visual embeddings via cosine similarity during active speech; (2) sequence-level intra-modality consistency (&Lscr;<sub>intra</sub>) applies track-aware supervised contrastive learning within each modality; and (3) prediction-level consistency (&Lscr;<sub>pred</sub>) distills from the confidence-masked audio-visual prediction (teacher) to the unimodal predictions (students).
       </figcaption>
     </figure>
 
@@ -523,17 +522,17 @@
       <div class="loss-card">
         <span class="loss-tag inter">&Lscr; inter</span>
         <h3>Embedding-level inter-modality consistency</h3>
-        <p>Maximizes cosine similarity between audio and visual embeddings &mdash; but only on speaking frames, where both modalities reflect the same speech-production process. When one modality is degraded at test time, the aligned partner anchors the fused representation toward the correct decision boundary.</p>
+        <p>Maximizes cosine similarity between audio and visual embeddings on speaking frames, where both modalities correspond to the same speech-production process. When one modality is degraded at test time, the aligned counterpart helps maintain the fused representation near the correct decision boundary.</p>
       </div>
       <div class="loss-card">
         <span class="loss-tag intra">&Lscr; intra</span>
         <h3>Sequence-level intra-modality consistency</h3>
-        <p>A track-aware supervised contrastive loss applied within each modality. Positives are same-label frames from the <em>same</em> track, avoiding cross-speaker interference and enlarging the margin between speaking and non-speaking clusters so corruption-induced shifts are less likely to cross the boundary.</p>
+        <p>A track-aware supervised contrastive loss applied within each modality. Positives are same-label frames from the same track, avoiding cross-speaker interference and increasing the margin between speaking and non-speaking clusters.</p>
       </div>
       <div class="loss-card">
         <span class="loss-tag pred">&Lscr; pred</span>
         <h3>Prediction-level consistency</h3>
-        <p>Knowledge distillation from the audio&ndash;visual prediction (teacher, gradients detached) to the unimodal students via MSE, with a confidence mask (&theta; = 0.7) that keeps only reliable teacher targets. This suppresses a corrupted modality from dominating the fused decision, with an implicit easy-to-hard curriculum as training progresses.</p>
+        <p>Knowledge distillation from the audio-visual prediction (teacher, gradients detached) to the unimodal students via MSE, with a confidence mask (&theta; = 0.7) that retains only reliable teacher targets. This prevents a corrupted modality from dominating the fused decision.</p>
       </div>
     </div>
   </section>
@@ -553,8 +552,8 @@
           <source src="assets/ava_joint_corruped.mp4" type="video/mp4">
         </video>
         <div class="demo-info">
-          <h3>AVA-ActiveSpeaker &mdash; Joint audio&ndash;visual corruption</h3>
-          <p>COCO-patch occlusion (top-right) + MUSAN babble noise applied simultaneously. Both modalities degraded, speakers still correctly identified.</p>
+          <h3>AVA-ActiveSpeaker: Joint audio-visual corruption</h3>
+          <p>COCO-patch occlusion (top-right) + MUSAN babble noise applied simultaneously.</p>
         </div>
       </div>
       <div class="demo-card">
@@ -563,8 +562,8 @@
           <source src="assets/wasd_demo.mp4" type="video/mp4">
         </video>
         <div class="demo-info">
-          <h3>WASD &mdash; In-the-wild generalization</h3>
-          <p>Diverse real-world scenarios &mdash; off-screen speech and podcast-style multi-speaker settings &mdash; evaluated directly without fine-tuning.</p>
+          <h3>WASD: In-the-wild generalization</h3>
+          <p>Off-screen speech and multi-speaker settings, evaluated without fine-tuning.</p>
         </div>
       </div>
     </div>
@@ -577,13 +576,13 @@
 <div class="wrap">
   <section id="results">
     <p class="eyebrow">Results &middot; Audio&ndash;Visual joint corruption</p>
-    <h2>The hardest, most realistic setting</h2>
+    <h2>Joint corruption</h2>
     <p>
-      Joint corruption degrades both streams at once. All corruption is applied <strong>only at test time</strong> &mdash; no corrupted samples are ever used during training. C&sup3;ASD gains most exactly where it matters: severe SNR and simultaneous occlusion. Results on the AVA-ActiveSpeaker validation set (mAP&nbsp;%).
+      Joint corruption degrades both streams at once. All corruption is applied <strong>only at test time</strong>; no corrupted samples are used during training. Results on the AVA-ActiveSpeaker validation set (mAP %).
     </p>
 
     <!-- Table 6 — Object occlusion + noise -->
-    <p class="table-label">Table 6 &mdash; Object occlusion + noise (MUSAN)</p>
+    <p class="table-label">Table 6: Object occlusion + noise (MUSAN)</p>
     <div class="table-wrap">
       <table>
         <thead>
@@ -604,7 +603,7 @@
     </div>
 
     <!-- Table 6 — Pixelated face -->
-    <p class="table-label">Table 6 &mdash; Pixelated face (MUSAN)</p>
+    <p class="table-label">Table 6: Pixelated face (MUSAN)</p>
     <div class="table-wrap">
       <table>
         <thead>
@@ -626,7 +625,7 @@
     <p class="table-note">Under object occlusion, C&sup3;ASD improves average mAP by <strong>+1.23%</strong> over Light-ASD, with the largest gains at the most severe &minus;10&nbsp;dB SNR.</p>
 
     <!-- Table 7 — DEMAND -->
-    <p class="table-label">Table 7 &mdash; Joint corruption on DEMAND (8 environments)</p>
+    <p class="table-label">Table 7: Joint corruption on DEMAND (8 environments)</p>
     <div class="table-wrap">
       <table>
         <thead>
@@ -649,7 +648,7 @@
         </tbody>
       </table>
     </div>
-    <p class="table-note">On DEMAND, C&sup3;ASD gains <strong>+1.0%</strong> average mAP under object occlusion and <strong>+0.7%</strong> under pixelation, consistently leading across all eight environments.</p>
+    <p class="table-note">On DEMAND, C&sup3;ASD gains <strong>+1.0%</strong> average mAP under object occlusion and <strong>+0.7%</strong> under pixelation across all eight environments.</p>
   </section>
 </div>
 
@@ -657,7 +656,7 @@
 <div class="wrap">
   <section id="more-results">
     <p class="eyebrow">Results &middot; Single-modality &amp; generalization</p>
-    <h2>Also robust on each axis alone</h2>
+    <h2>Single-modality corruption and generalization</h2>
 
     <div class="table-wrap">
       <table>
@@ -677,7 +676,7 @@
         </tbody>
       </table>
     </div>
-    <p class="table-note">Under visual-only object occlusion, inter-modality alignment lets the clean audio stream compensate for degraded video (<strong>+2.04%</strong>). On WASD, C&sup3;ASD generalizes across a full dataset shift with no fine-tuning, suggesting the learned representations are transferable rather than dataset-specific.</p>
+    <p class="table-note">Under visual-only object occlusion, inter-modality alignment allows the clean audio stream to compensate for degraded video (<strong>+2.04%</strong>). On WASD, C&sup3;ASD generalizes to a different dataset without fine-tuning.</p>
   </section>
 </div>
 
@@ -685,12 +684,12 @@
 <div class="wrap">
   <section id="ablation">
     <p class="eyebrow">Ablation &middot; Joint audio&ndash;visual corruption</p>
-    <h2>Every loss earns its place</h2>
+    <h2>Ablation study</h2>
     <p>
-      We ablate each consistency loss under the hardest regime &mdash; simultaneous audio&ndash;visual corruption on the eight DEMAND environments (mAP&nbsp;%). Every constraint delivers a large gain over the unregularized baseline (82.27), and the three are complementary: combining all of them reaches the best average of <strong>90.19</strong>. Inter-modality alignment gives the biggest single jump, while prediction-level consistency adds the most on top of the embedding-level objectives.
+      We ablate each consistency loss under simultaneous audio-visual corruption on the eight DEMAND environments (mAP %). Each constraint improves over the unregularized baseline (82.27), and combining all three reaches the best average of <strong>90.19</strong>.
     </p>
 
-    <p class="table-label">Table A.2 &mdash; Ablation under joint audio&ndash;visual corruption (mAP %)</p>
+    <p class="table-label">Table A.2: Ablation under joint audio-visual corruption (mAP %)</p>
     <div class="table-wrap">
       <table>
         <thead>
@@ -711,7 +710,7 @@
         </tbody>
       </table>
     </div>
-    <p class="table-note">Each loss individually lifts the baseline by roughly <strong>+7&ndash;8%</strong> average mAP, and the full combination (&check;&check;&check;) is best at <strong>90.19</strong> &mdash; a <strong>+7.92%</strong> gain over the unregularized model.</p>
+    <p class="table-note">Each loss individually improves the baseline by roughly <strong>+7-8%</strong> average mAP. The full combination (&check;&check;&check;) reaches <strong>90.19</strong>, a <strong>+7.92%</strong> gain over the unregularized model.</p>
   </section>
 </div>
 
