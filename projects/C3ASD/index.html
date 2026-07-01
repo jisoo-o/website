@@ -10,32 +10,29 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ========== Design Tokens ========== */
     :root {
-      --ink: #141518;
-      --ink-soft: #4a4e57;
-      --line: #e5e3dc;
-      --paper: #fbfaf6;
-      --paper-2: #f3f1ea;
-      --accent-audio: #c0392b;
-      --accent-visual: #2f5da8;
+      --ink: #222;
+      --ink-soft: #555;
+      --line: #ddd;
+      --bg: #ffffff;
+      --bg-2: #f5f5f5;
+      --accent: #1772d0;
       --loss-inter: #6b3fa0;
       --loss-intra: #227a44;
       --loss-pred: #b5651d;
-      --radius: 14px;
-      --max-w: 860px;
+      --max-w: 900px;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-weight: 400;
       color: var(--ink);
-      background: var(--paper);
+      background: var(--bg);
       line-height: 1.7;
       margin: 0;
       padding: 0;
@@ -47,28 +44,22 @@
       padding: 0 24px;
     }
 
-    /* ========== Typography ========== */
-    h1, h2, h3 {
-      font-family: 'Newsreader', Georgia, serif;
-      line-height: 1.3;
-    }
+    h1, h2, h3 { line-height: 1.35; }
 
     .eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--ink-soft);
       margin: 0 0 8px;
     }
 
-    a { color: var(--accent-visual); text-decoration: none; }
+    a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* Focus */
     :focus-visible {
-      outline: 2px solid var(--accent-visual);
+      outline: 2px solid var(--accent);
       outline-offset: 2px;
     }
 
@@ -80,28 +71,24 @@
 
     .venue-pill {
       display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      padding: 5px 16px;
-      border-radius: 999px;
-      background: var(--paper-2);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 4px;
+      background: var(--bg-2);
       border: 1px solid var(--line);
       color: var(--ink-soft);
       margin-bottom: 20px;
     }
 
     .hero h1 {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 700;
       margin: 0 0 14px;
     }
 
     .hero .subtitle {
-      font-family: 'Newsreader', Georgia, serif;
-      font-style: italic;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--ink-soft);
       margin: 0 0 24px;
       max-width: 640px;
@@ -110,13 +97,13 @@
     }
 
     .authors {
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       margin: 0 0 4px;
     }
     .authors strong { font-weight: 600; }
 
     .affiliation {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--ink-soft);
       margin: 0 0 4px;
     }
@@ -124,7 +111,6 @@
     .equal-note {
       font-size: 0.82rem;
       color: var(--ink-soft);
-      font-style: italic;
       margin: 0 0 24px;
     }
 
@@ -139,30 +125,28 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 9px 22px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
+      padding: 8px 20px;
+      font-size: 0.88rem;
       font-weight: 500;
-      border-radius: 999px;
+      border-radius: 4px;
       border: 1px solid var(--line);
-      background: #fff;
+      background: var(--bg);
       color: var(--ink);
-      transition: background 0.15s ease, border-color 0.15s ease;
+      transition: background 0.15s ease;
     }
     .hero-btn:hover {
-      background: var(--paper-2);
-      border-color: #ccc;
+      background: var(--bg-2);
       text-decoration: none;
     }
 
     /* ========== Sections ========== */
     section {
-      padding: 48px 0;
+      padding: 40px 0;
       border-top: 1px solid var(--line);
     }
 
     section h2 {
-      font-size: 1.6rem;
+      font-size: 1.45rem;
       font-weight: 700;
       margin: 0 0 16px;
     }
@@ -173,33 +157,29 @@
     }
 
     .lead {
-      font-size: 1.02rem;
+      font-size: 1rem;
       color: var(--ink-soft);
       margin-bottom: 16px;
     }
 
     /* ========== Figures ========== */
     .figure-slot {
-      margin: 28px 0;
+      margin: 24px 0;
       text-align: center;
     }
 
     .figure-slot img {
       max-width: 100%;
       height: auto;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
     }
 
     .placeholder {
       display: none;
-      background: var(--paper-2);
+      background: var(--bg-2);
       border: 2px dashed var(--line);
-      border-radius: var(--radius);
       padding: 48px 24px;
       text-align: center;
       color: var(--ink-soft);
-      font-family: 'JetBrains Mono', monospace;
       font-size: 0.85rem;
     }
 
@@ -209,9 +189,6 @@
       line-height: 1.6;
       margin-top: 12px;
       text-align: left;
-      max-width: 760px;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     /* ========== Contribution Cards ========== */
@@ -223,17 +200,15 @@
     }
 
     .card {
-      background: #fff;
+      background: var(--bg-2);
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 20px;
+      padding: 18px;
     }
 
     .card h3 {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
-      margin: 0 0 8px;
+      margin: 0 0 6px;
     }
 
     .card p {
@@ -247,36 +222,34 @@
     .loss-cards {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 14px;
+      gap: 12px;
       margin-top: 24px;
     }
 
     .loss-card {
-      background: #fff;
+      background: var(--bg-2);
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 20px 24px;
+      padding: 18px 20px;
     }
 
     .loss-tag {
       display: inline-block;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      padding: 2px 10px;
-      border-radius: 6px;
+      padding: 2px 8px;
+      border-radius: 3px;
       color: #fff;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .loss-tag.inter { background: var(--loss-inter); }
     .loss-tag.intra { background: var(--loss-intra); }
     .loss-tag.pred  { background: var(--loss-pred); }
 
     .loss-card h3 {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
-      margin: 0 0 6px;
+      margin: 0 0 4px;
     }
 
     .loss-card p {
@@ -295,9 +268,7 @@
     }
 
     .demo-card {
-      background: #fff;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
       overflow: hidden;
     }
 
@@ -308,14 +279,13 @@
     }
 
     .demo-card .demo-info {
-      padding: 16px;
+      padding: 14px 16px;
     }
 
     .demo-card h3 {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
-      margin: 0 0 6px;
+      margin: 0 0 4px;
     }
 
     .demo-card p {
@@ -337,8 +307,6 @@
       -webkit-overflow-scrolling: touch;
       margin: 20px 0;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
     }
 
     .table-wrap table {
@@ -350,7 +318,7 @@
     }
 
     .table-wrap thead th {
-      background: var(--paper-2);
+      background: var(--bg-2);
       font-weight: 600;
       text-align: center;
       padding: 10px 10px;
@@ -364,13 +332,13 @@
       position: sticky;
       left: 0;
       z-index: 2;
-      background: var(--paper-2);
+      background: var(--bg-2);
     }
 
     .table-wrap tbody td {
       text-align: center;
       padding: 8px 10px;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid #eee;
     }
 
     .table-wrap tbody td:first-child {
@@ -384,7 +352,6 @@
 
     .table-wrap tbody tr:last-child td { border-bottom: none; }
 
-    /* "Ours" row highlight */
     .table-wrap tbody tr.ours td {
       background: #eef4ff;
       font-weight: 700;
@@ -393,8 +360,7 @@
       background: #eef4ff;
     }
 
-    /* AVG column highlight */
-    .col-avg { background: rgba(47, 93, 168, 0.06) !important; }
+    .col-avg { background: rgba(23, 114, 208, 0.05) !important; }
 
     .table-label {
       font-size: 0.9rem;
@@ -405,25 +371,18 @@
     .table-note {
       font-size: 0.85rem;
       color: var(--ink-soft);
-      font-style: italic;
       margin: 8px 0 0;
       line-height: 1.55;
     }
 
-    /* ========== Ablation checkmarks ========== */
-    .check-on {
-      color: var(--loss-intra);
-      font-weight: 700;
-    }
-    .check-off {
-      color: #bbb;
-    }
+    /* ========== Ablation ========== */
+    .check-on { color: var(--loss-intra); font-weight: 700; }
+    .check-off { color: #bbb; }
 
     /* ========== BibTeX ========== */
     .bibtex-block {
-      background: var(--paper-2);
+      background: var(--bg-2);
       border: 1px solid var(--line);
-      border-radius: var(--radius);
       padding: 20px 24px;
       overflow-x: auto;
       position: relative;
@@ -444,15 +403,14 @@
       right: 12px;
       padding: 4px 12px;
       font-size: 0.78rem;
-      font-family: 'Inter', sans-serif;
       border: 1px solid var(--line);
-      border-radius: 6px;
+      border-radius: 3px;
       background: #fff;
       color: var(--ink-soft);
       cursor: pointer;
       transition: background 0.15s;
     }
-    .copy-btn:hover { background: var(--paper-2); }
+    .copy-btn:hover { background: var(--bg-2); }
 
     /* ========== Footer ========== */
     footer {
@@ -466,13 +424,12 @@
 
     /* ========== Responsive ========== */
     @media (max-width: 760px) {
-      .hero h1 { font-size: 1.6rem; }
+      .hero h1 { font-size: 1.5rem; }
       .card-grid { grid-template-columns: 1fr; }
       .demo-grid { grid-template-columns: 1fr; }
-      section { padding: 32px 0; }
+      section { padding: 28px 0; }
     }
 
-    /* ========== Reduced Motion ========== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         transition: none !important;
@@ -493,7 +450,7 @@
     <p class="affiliation">&sup1;Chung-Ang University, Seoul, Republic of Korea</p>
     <p class="equal-note">* Equal contribution.</p>
     <div class="hero-buttons">
-      <a class="hero-btn" href="#">&#128196; Paper</a>
+      <a class="hero-btn" href="assets/paper.pdf" target="_blank">&#128196; Paper</a>
       <a class="hero-btn" href="#">&#128209; arXiv</a>
       <a class="hero-btn" href="https://github.com/jisoo-o/C3ASD" target="_blank">&#128187; Code</a>
       <a class="hero-btn" href="#demos">&#9654; Demos</a>
@@ -759,7 +716,7 @@
 </div>
 
 <!-- ==================== BIBTEX ==================== -->
-<div class="wrap">
+<!-- <div class="wrap">
   <section>
     <p class="eyebrow">Citation</p>
     <h2>BibTeX</h2>
@@ -774,12 +731,11 @@
 }</pre>
     </div>
   </section>
-</div>
+</div> -->
 
 <!-- ==================== FOOTER ==================== -->
 <footer>
   <div class="wrap">
-    Chung-Ang University, Seoul, Republic of Korea<br>
     Website template inspired by <a href="https://nerfies.github.io" target="_blank">Nerfies</a>.
     Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
   </div>
