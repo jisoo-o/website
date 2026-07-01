@@ -191,72 +191,20 @@
       text-align: left;
     }
 
-    /* ========== Contribution Cards ========== */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 24px;
+    /* ========== Contributions / Loss lists ========== */
+    .contrib-list, .loss-list {
+      margin: 20px 0 0;
+      padding-left: 20px;
     }
 
-    .card {
-      background: var(--bg-2);
-      border: 1px solid var(--line);
-      padding: 18px;
+    .contrib-list li, .loss-list li {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      line-height: 1.6;
     }
 
-    .card h3 {
-      font-size: 0.92rem;
+    .contrib-list li strong, .loss-list li strong {
       font-weight: 600;
-      margin: 0 0 6px;
-    }
-
-    .card p {
-      font-size: 0.88rem;
-      color: var(--ink-soft);
-      margin: 0;
-      line-height: 1.55;
-    }
-
-    /* ========== Loss Cards ========== */
-    .loss-cards {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .loss-card {
-      background: var(--bg-2);
-      border: 1px solid var(--line);
-      padding: 18px 20px;
-    }
-
-    .loss-tag {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 3px;
-      color: #fff;
-      margin-bottom: 6px;
-    }
-    .loss-tag.inter { background: var(--loss-inter); }
-    .loss-tag.intra { background: var(--loss-intra); }
-    .loss-tag.pred  { background: var(--loss-pred); }
-
-    .loss-card h3 {
-      font-size: 0.92rem;
-      font-weight: 600;
-      margin: 0 0 4px;
-    }
-
-    .loss-card p {
-      font-size: 0.88rem;
-      color: var(--ink-soft);
-      margin: 0;
-      line-height: 1.55;
     }
 
     /* ========== Demo Videos ========== */
@@ -483,20 +431,11 @@
       We attribute this to the absence of explicit consistency constraints that align representations across modalities. Without such constraints, models rely on modality-specific shortcuts that fail under corruption. We propose <strong>C&sup3;ASD</strong>, a multi-level consistency-driven framework with three complementary constraints: <strong>embedding-level inter-modality consistency</strong> aligns audio&ndash;visual representations during speech; <strong>sequence-level intra-modality consistency</strong> separates speaking and non-speaking clusters via track-aware contrastive learning; and <strong>prediction-level consistency</strong> stabilizes fusion through knowledge distillation. Experiments show consistent improvements under audio, visual, and joint corruptions, while maintaining performance on clean data.
     </p>
 
-    <div class="card-grid">
-      <div class="card">
-        <h3>A robustness diagnosis</h3>
-        <p>We show that the lack of explicit multi-level modality consistency limits the robustness of existing audio-visual ASD models under real-world corruption.</p>
-      </div>
-      <div class="card">
-        <h3>Three consistency losses</h3>
-        <p>Speaking-aware inter-modality alignment, sequence-level intra-modality regularization, and prediction-level knowledge distillation.</p>
-      </div>
-      <div class="card">
-        <h3>Robust and lightweight</h3>
-        <p>Consistent gains under audio, visual, and joint corruption with no extra annotations, no corrupted training data, and no added parameters.</p>
-      </div>
-    </div>
+    <ul class="contrib-list">
+      <li><strong>Robustness diagnosis.</strong> We show that the lack of explicit multi-level modality consistency limits the robustness of existing audio-visual ASD models under real-world corruption.</li>
+      <li><strong>Three consistency losses.</strong> Speaking-aware inter-modality alignment, sequence-level intra-modality regularization, and prediction-level knowledge distillation.</li>
+      <li><strong>Lightweight.</strong> Consistent gains under audio, visual, and joint corruption with no extra annotations, no corrupted training data, and no added parameters.</li>
+    </ul>
   </section>
 </div>
 
@@ -518,23 +457,11 @@
       </figcaption>
     </figure>
 
-    <div class="loss-cards">
-      <div class="loss-card">
-        <span class="loss-tag inter">&Lscr; inter</span>
-        <h3>Embedding-level inter-modality consistency</h3>
-        <p>Maximizes cosine similarity between audio and visual embeddings on speaking frames, where both modalities correspond to the same speech-production process. When one modality is degraded at test time, the aligned counterpart helps maintain the fused representation near the correct decision boundary.</p>
-      </div>
-      <div class="loss-card">
-        <span class="loss-tag intra">&Lscr; intra</span>
-        <h3>Sequence-level intra-modality consistency</h3>
-        <p>A track-aware supervised contrastive loss applied within each modality. Positives are same-label frames from the same track, avoiding cross-speaker interference and increasing the margin between speaking and non-speaking clusters.</p>
-      </div>
-      <div class="loss-card">
-        <span class="loss-tag pred">&Lscr; pred</span>
-        <h3>Prediction-level consistency</h3>
-        <p>Knowledge distillation from the audio-visual prediction (teacher, gradients detached) to the unimodal students via MSE, with a confidence mask (&theta; = 0.7) that retains only reliable teacher targets. This prevents a corrupted modality from dominating the fused decision.</p>
-      </div>
-    </div>
+    <ul class="loss-list">
+      <li><strong>Embedding-level inter-modality consistency (&Lscr;<sub>inter</sub>).</strong> Maximizes cosine similarity between audio and visual embeddings on speaking frames, where both modalities correspond to the same speech-production process. When one modality is degraded at test time, the aligned counterpart helps maintain the fused representation near the correct decision boundary.</li>
+      <li><strong>Sequence-level intra-modality consistency (&Lscr;<sub>intra</sub>).</strong> A track-aware supervised contrastive loss applied within each modality. Positives are same-label frames from the same track, avoiding cross-speaker interference and increasing the margin between speaking and non-speaking clusters.</li>
+      <li><strong>Prediction-level consistency (&Lscr;<sub>pred</sub>).</strong> Knowledge distillation from the audio-visual prediction (teacher, gradients detached) to the unimodal students via MSE, with a confidence mask (&theta; = 0.7) that retains only reliable teacher targets. This prevents a corrupted modality from dominating the fused decision.</li>
+    </ul>
   </section>
 </div>
 
