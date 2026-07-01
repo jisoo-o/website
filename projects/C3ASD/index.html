@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="C³ASD: Multi-Level Consistency-Driven Representation Learning for Robust Active Speaker Detection — ECCV 2026">
+  <meta name="author" content="Jin Hong, Jisoo Park, Junseok Kwon">
+  <title>C³ASD — ECCV 2026</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ========== Design Tokens ========== */
+    :root {
+      --ink: #141518;
+      --ink-soft: #4a4e57;
+      --line: #e5e3dc;
+      --paper: #fbfaf6;
+      --paper-2: #f3f1ea;
+      --accent-audio: #c0392b;
+      --accent-visual: #2f5da8;
+      --loss-inter: #6b3fa0;
+      --loss-intra: #227a44;
+      --loss-pred: #b5651d;
+      --radius: 14px;
+      --max-w: 860px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========== Typography ========== */
+    h1, h2, h3 {
+      font-family: 'Newsreader', Georgia, serif;
+      line-height: 1.3;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin: 0 0 8px;
+    }
+
+    a { color: var(--accent-visual); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Focus */
+    :focus-visible {
+      outline: 2px solid var(--accent-visual);
+      outline-offset: 2px;
+    }
+
+    /* ========== Hero ========== */
+    .hero {
+      text-align: center;
+      padding: 64px 0 40px;
+    }
+
+    .venue-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 5px 16px;
+      border-radius: 999px;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      color: var(--ink-soft);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0 0 14px;
+    }
+
+    .hero .subtitle {
+      font-family: 'Newsreader', Georgia, serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      margin: 0 0 24px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .authors {
+      font-size: 1.05rem;
+      margin: 0 0 4px;
+    }
+    .authors strong { font-weight: 600; }
+
+    .affiliation {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      margin: 0 0 4px;
+    }
+
+    .equal-note {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      font-style: italic;
+      margin: 0 0 24px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 22px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .hero-btn:hover {
+      background: var(--paper-2);
+      border-color: #ccc;
+      text-decoration: none;
+    }
+
+    /* ========== Sections ========== */
+    section {
+      padding: 48px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    section h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0 0 16px;
+    }
+
+    section p, section li {
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    .lead {
+      font-size: 1.02rem;
+      color: var(--ink-soft);
+      margin-bottom: 16px;
+    }
+
+    /* ========== Figures ========== */
+    .figure-slot {
+      margin: 28px 0;
+      text-align: center;
+    }
+
+    .figure-slot img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+    }
+
+    .placeholder {
+      display: none;
+      background: var(--paper-2);
+      border: 2px dashed var(--line);
+      border-radius: var(--radius);
+      padding: 48px 24px;
+      text-align: center;
+      color: var(--ink-soft);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+    }
+
+    figcaption {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      margin-top: 12px;
+      text-align: left;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ========== Contribution Cards ========== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .card h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
+
+    .card p {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    /* ========== Loss Cards ========== */
+    .loss-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .loss-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+
+    .loss-tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 6px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .loss-tag.inter { background: var(--loss-inter); }
+    .loss-tag.intra { background: var(--loss-intra); }
+    .loss-tag.pred  { background: var(--loss-pred); }
+
+    .loss-card h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .loss-card p {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    /* ========== Demo Videos ========== */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .demo-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .demo-card video {
+      width: 100%;
+      display: block;
+      background: #000;
+    }
+
+    .demo-card .demo-info {
+      padding: 16px;
+    }
+
+    .demo-card h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .demo-card p {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .demo-legend {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+    }
+
+    /* ========== Tables ========== */
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 20px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+
+    .table-wrap thead th {
+      background: var(--paper-2);
+      font-weight: 600;
+      text-align: center;
+      padding: 10px 10px;
+      border-bottom: 2px solid var(--line);
+      position: sticky;
+      top: 0;
+    }
+
+    .table-wrap thead th:first-child {
+      text-align: left;
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: var(--paper-2);
+    }
+
+    .table-wrap tbody td {
+      text-align: center;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .table-wrap tbody td:first-child {
+      text-align: left;
+      font-weight: 500;
+      position: sticky;
+      left: 0;
+      background: #fff;
+      z-index: 1;
+    }
+
+    .table-wrap tbody tr:last-child td { border-bottom: none; }
+
+    /* "Ours" row highlight */
+    .table-wrap tbody tr.ours td {
+      background: #eef4ff;
+      font-weight: 700;
+    }
+    .table-wrap tbody tr.ours td:first-child {
+      background: #eef4ff;
+    }
+
+    /* AVG column highlight */
+    .col-avg { background: rgba(47, 93, 168, 0.06) !important; }
+
+    .table-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 28px 0 6px;
+    }
+
+    .table-note {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      font-style: italic;
+      margin: 8px 0 0;
+      line-height: 1.55;
+    }
+
+    /* ========== Ablation checkmarks ========== */
+    .check-on {
+      color: var(--loss-intra);
+      font-weight: 700;
+    }
+    .check-off {
+      color: #bbb;
+    }
+
+    /* ========== BibTeX ========== */
+    .bibtex-block {
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    .bibtex-block pre {
+      margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .copy-btn:hover { background: var(--paper-2); }
+
+    /* ========== Footer ========== */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 32px 0;
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 760px) {
+      .hero h1 { font-size: 1.6rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .demo-grid { grid-template-columns: 1fr; }
+      section { padding: 32px 0; }
+    }
+
+    /* ========== Reduced Motion ========== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<div class="wrap">
+  <div class="hero">
+    <div class="venue-pill">ECCV 2026</div>
+    <h1>C&sup3;ASD: Multi-Level Consistency-Driven Representation Learning for Robust Active Speaker Detection</h1>
+    <p class="subtitle">Class-aligned, modality-invariant embeddings that stay robust when audio and video break down.</p>
+    <p class="authors"><strong>Jin Hong</strong>*&sup1;, <strong>Jisoo Park</strong>*&sup1;, <strong>Junseok Kwon</strong>&sup1;</p>
+    <p class="affiliation">&sup1;Chung-Ang University, Seoul, Republic of Korea</p>
+    <p class="equal-note">* Equal contribution.</p>
+    <div class="hero-buttons">
+      <a class="hero-btn" href="#">&#128196; Paper</a>
+      <a class="hero-btn" href="#">&#128209; arXiv</a>
+      <a class="hero-btn" href="https://github.com/jisoo-o/C3ASD" target="_blank">&#128187; Code</a>
+      <a class="hero-btn" href="#demos">&#9654; Demos</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TEASER ==================== -->
+<div class="wrap">
+  <section>
+    <figure class="figure-slot">
+      <img src="assets/fig1.png" alt="C³ASD teaser — Multi-Level Consistency for Robust ASD"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="placeholder">fig1.png — Teaser figure</div>
+      <figcaption>
+        <strong>Multi-Level Consistency for Robust ASD.</strong> In real-world active speaker detection, audio and visual streams are often corrupted by noise and occlusion. Existing models learn modality-clustered representations that are fragile under such degradations. In contrast, our multi-level consistency framework produces class-aligned, modality-invariant embeddings that stay robust across diverse corruption scenarios.
+      </figcaption>
+    </figure>
+  </section>
+</div>
+
+<!-- ==================== ABSTRACT ==================== -->
+<div class="wrap">
+  <section>
+    <p class="eyebrow">Abstract</p>
+    <h2>Consistency, not just fusion</h2>
+    <p class="lead">
+      Active Speaker Detection determines whether a visible person in a video is speaking at each moment. While recent audio&ndash;visual fusion methods perform well on clean data, they degrade under real-world corruptions such as background noise, occlusion, or simultaneous modality degradation.
+    </p>
+    <p>
+      We attribute this limitation to the absence of explicit consistency constraints that promote robust, semantically aligned representations across modalities. Without such guidance, models tend to learn fragile modality-specific shortcuts that fail under corrupted conditions. We propose <strong>C&sup3;ASD</strong>, a multi-level consistency-driven framework with three complementary constraints: <strong>embedding-level inter-modality consistency</strong> aligns audio&ndash;visual representations during speech; <strong>sequence-level intra-modality consistency</strong> separates speaking and non-speaking clusters via track-aware contrastive learning; and <strong>prediction-level consistency</strong> stabilizes fusion through knowledge distillation. Extensive experiments demonstrate significant improvements under diverse audio, visual, and joint corruptions, while maintaining competitive performance on clean data.
+    </p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>A robustness diagnosis</h3>
+        <p>We reveal that the absence of explicit multi-level modality consistency fundamentally limits the robustness of existing audio&ndash;visual ASD models under real-world corruption.</p>
+      </div>
+      <div class="card">
+        <h3>Three consistency losses</h3>
+        <p>Speaking-aware inter-modality alignment, sequence-level intra-modality regularization, and prediction-level knowledge distillation regularize representation learning directly.</p>
+      </div>
+      <div class="card">
+        <h3>Robust and lightweight</h3>
+        <p>Large gains under audio, visual, and joint corruption with no extra annotations, no corrupted training data, and virtually no added parameters.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== METHOD ==================== -->
+<div class="wrap">
+  <section>
+    <p class="eyebrow">Method</p>
+    <h2>Multi-level consistency regularization</h2>
+    <p>
+      Built on the lightweight Light-ASD backbone, C&sup3;ASD keeps the two-stream encoder and BGRU classifier untouched and adds three consistency signals that operate at the embedding and prediction levels. They require no external data or architectural changes and introduce no learnable parameters beyond a single audio-only classification head.
+    </p>
+
+    <figure class="figure-slot">
+      <img src="assets/fig2.png" alt="C³ASD framework overview"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="placeholder">fig2.png — Framework overview</div>
+      <figcaption>
+        <strong>Overview of the C&sup3;ASD framework.</strong> Visual face crops and audio MFCCs pass through modality-specific encoders. Three constraints act at multiple levels: (1) embedding-level inter-modality consistency (&Lscr;<sub>inter</sub>) aligns audio and visual embeddings via cosine similarity during active speech; (2) sequence-level intra-modality consistency (&Lscr;<sub>intra</sub>) applies track-aware supervised contrastive learning within each modality; and (3) prediction-level consistency (&Lscr;<sub>pred</sub>) distills from the confidence-masked audio&ndash;visual prediction (teacher) to the unimodal predictions (students).
+      </figcaption>
+    </figure>
+
+    <div class="loss-cards">
+      <div class="loss-card">
+        <span class="loss-tag inter">&Lscr; inter</span>
+        <h3>Embedding-level inter-modality consistency</h3>
+        <p>Maximizes cosine similarity between audio and visual embeddings &mdash; but only on speaking frames, where both modalities reflect the same speech-production process. When one modality is degraded at test time, the aligned partner anchors the fused representation toward the correct decision boundary.</p>
+      </div>
+      <div class="loss-card">
+        <span class="loss-tag intra">&Lscr; intra</span>
+        <h3>Sequence-level intra-modality consistency</h3>
+        <p>A track-aware supervised contrastive loss applied within each modality. Positives are same-label frames from the <em>same</em> track, avoiding cross-speaker interference and enlarging the margin between speaking and non-speaking clusters so corruption-induced shifts are less likely to cross the boundary.</p>
+      </div>
+      <div class="loss-card">
+        <span class="loss-tag pred">&Lscr; pred</span>
+        <h3>Prediction-level consistency</h3>
+        <p>Knowledge distillation from the audio&ndash;visual prediction (teacher, gradients detached) to the unimodal students via MSE, with a confidence mask (&theta; = 0.7) that keeps only reliable teacher targets. This suppresses a corrupted modality from dominating the fused decision, with an implicit easy-to-hard curriculum as training progresses.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== DEMOS ==================== -->
+<div class="wrap">
+  <section id="demos">
+    <p class="eyebrow">Demo videos</p>
+    <h2>C&sup3;ASD in the wild &amp; under corruption</h2>
+    <p>Green box = predicted active speaker, red box = predicted non-speaker; a green border marks a correctly classified frame.</p>
+
+    <div class="demo-grid">
+      <div class="demo-card">
+        <video controls muted playsinline preload="metadata"
+               poster="assets/demo_ava_poster.jpg">
+          <source src="assets/ava_joint_corruped.mp4" type="video/mp4">
+        </video>
+        <div class="demo-info">
+          <h3>AVA-ActiveSpeaker &mdash; Joint audio&ndash;visual corruption</h3>
+          <p>COCO-patch occlusion (top-right) + MUSAN babble noise applied simultaneously. Both modalities degraded, speakers still correctly identified.</p>
+        </div>
+      </div>
+      <div class="demo-card">
+        <video controls muted playsinline preload="metadata"
+               poster="assets/demo_wasd_poster.jpg">
+          <source src="assets/wasd_demo.mp4" type="video/mp4">
+        </video>
+        <div class="demo-info">
+          <h3>WASD &mdash; In-the-wild generalization</h3>
+          <p>Diverse real-world scenarios &mdash; off-screen speech and podcast-style multi-speaker settings &mdash; evaluated directly without fine-tuning.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="demo-legend">&#x1f7e9; Active speaker (green) &nbsp;/&nbsp; &#x1f7e5; Non-speaker (red)</p>
+  </section>
+</div>
+
+<!-- ==================== RESULTS: JOINT CORRUPTION ==================== -->
+<div class="wrap">
+  <section id="results">
+    <p class="eyebrow">Results &middot; Audio&ndash;Visual joint corruption</p>
+    <h2>The hardest, most realistic setting</h2>
+    <p>
+      Joint corruption degrades both streams at once. All corruption is applied <strong>only at test time</strong> &mdash; no corrupted samples are ever used during training. C&sup3;ASD gains most exactly where it matters: severe SNR and simultaneous occlusion. Results on the AVA-ActiveSpeaker validation set (mAP&nbsp;%).
+    </p>
+
+    <!-- Table 6 — Object occlusion + noise -->
+    <p class="table-label">Table 6 &mdash; Object occlusion + noise (MUSAN)</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>B &minus;10</th><th>B &minus;5</th><th>B 0</th><th>B 5</th><th>B 10</th><th class="col-avg">B AVG</th>
+            <th>M &minus;10</th><th>M &minus;5</th><th>M 0</th><th>M 5</th><th>M 10</th><th class="col-avg">M AVG</th>
+            <th>N &minus;10</th><th>N &minus;5</th><th>N 0</th><th>N 5</th><th>N 10</th><th class="col-avg">N AVG</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>TalkNet</td><td>53.7</td><td>58.8</td><td>63.1</td><td>66.3</td><td>68.1</td><td class="col-avg">62.0</td><td>53.8</td><td>59.3</td><td>64.0</td><td>67.2</td><td>69.1</td><td class="col-avg">62.7</td><td>54.1</td><td>59.3</td><td>63.7</td><td>66.8</td><td>68.9</td><td class="col-avg">62.6</td></tr>
+          <tr><td>ADENet</td><td>55.8</td><td>59.1</td><td>61.0</td><td>62.7</td><td>64.7</td><td class="col-avg">60.7</td><td>52.8</td><td>56.4</td><td>59.1</td><td>62.2</td><td>64.6</td><td class="col-avg">59.0</td><td>54.6</td><td>57.5</td><td>59.7</td><td>62.0</td><td>64.2</td><td class="col-avg">59.6</td></tr>
+          <tr><td>Light-ASD</td><td>65.7</td><td>69.4</td><td>72.7</td><td>75.1</td><td>76.3</td><td class="col-avg">71.9</td><td>64.8</td><td>68.9</td><td>72.6</td><td>75.0</td><td>76.3</td><td class="col-avg">71.5</td><td>65.1</td><td>68.8</td><td>72.2</td><td>74.4</td><td>75.8</td><td class="col-avg">71.3</td></tr>
+          <tr class="ours"><td>Ours</td><td>66.6</td><td>70.2</td><td>73.7</td><td>76.3</td><td>77.8</td><td class="col-avg">72.9</td><td>65.8</td><td>69.6</td><td>73.4</td><td>76.1</td><td>77.6</td><td class="col-avg">72.5</td><td>66.6</td><td>70.4</td><td>73.8</td><td>76.1</td><td>77.6</td><td class="col-avg">73.0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table 6 — Pixelated face -->
+    <p class="table-label">Table 6 &mdash; Pixelated face (MUSAN)</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>B &minus;10</th><th>B &minus;5</th><th>B 0</th><th>B 5</th><th>B 10</th><th class="col-avg">B AVG</th>
+            <th>M &minus;10</th><th>M &minus;5</th><th>M 0</th><th>M 5</th><th>M 10</th><th class="col-avg">M AVG</th>
+            <th>N &minus;10</th><th>N &minus;5</th><th>N 0</th><th>N 5</th><th>N 10</th><th class="col-avg">N AVG</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>TalkNet</td><td>85.0</td><td>87.4</td><td>89.1</td><td>90.3</td><td>91.1</td><td class="col-avg">88.6</td><td>83.9</td><td>86.2</td><td>88.2</td><td>89.8</td><td>90.8</td><td class="col-avg">87.8</td><td>84.9</td><td>87.2</td><td>88.9</td><td>90.1</td><td>90.9</td><td class="col-avg">88.4</td></tr>
+          <tr><td>ADENet</td><td>84.1</td><td>85.9</td><td>86.8</td><td>87.3</td><td>88.2</td><td class="col-avg">86.5</td><td>82.2</td><td>84.2</td><td>85.7</td><td>87.2</td><td>88.3</td><td class="col-avg">85.5</td><td>83.2</td><td>85.0</td><td>86.2</td><td>87.3</td><td>88.2</td><td class="col-avg">86.0</td></tr>
+          <tr><td>Light-ASD</td><td>87.5</td><td>89.2</td><td>90.5</td><td>91.5</td><td>92.1</td><td class="col-avg">90.2</td><td>86.0</td><td>87.9</td><td>89.6</td><td>90.9</td><td>91.8</td><td class="col-avg">89.3</td><td>86.9</td><td>88.7</td><td>90.1</td><td>91.2</td><td>91.9</td><td class="col-avg">89.8</td></tr>
+          <tr class="ours"><td>Ours</td><td>87.9</td><td>89.6</td><td>90.9</td><td>91.9</td><td>92.5</td><td class="col-avg">90.6</td><td>86.7</td><td>88.6</td><td>90.2</td><td>91.5</td><td>92.4</td><td class="col-avg">89.9</td><td>87.7</td><td>89.4</td><td>90.8</td><td>91.8</td><td>92.4</td><td class="col-avg">90.4</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Under object occlusion, C&sup3;ASD improves average mAP by <strong>+1.23%</strong> over Light-ASD, with the largest gains at the most severe &minus;10&nbsp;dB SNR.</p>
+
+    <!-- Table 7 — DEMAND -->
+    <p class="table-label">Table 7 &mdash; Joint corruption on DEMAND (8 environments)</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th colspan="9" style="text-align:center;">Object occlusion + noise</th>
+            <th colspan="9" style="text-align:center;">Pixelated face</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th>PARK</th><th>RIVER</th><th>CAFE</th><th>REST</th><th>CAFET</th><th>METRO</th><th>STATION</th><th>MEET</th><th class="col-avg">AVG</th>
+            <th>PARK</th><th>RIVER</th><th>CAFE</th><th>REST</th><th>CAFET</th><th>METRO</th><th>STATION</th><th>MEET</th><th class="col-avg">AVG</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>TalkNet</td><td>67.5</td><td>63.0</td><td>60.4</td><td>57.6</td><td>60.4</td><td>69.0</td><td>63.9</td><td>59.1</td><td class="col-avg">62.6</td><td>90.0</td><td>89.0</td><td>86.6</td><td>86.1</td><td>86.6</td><td>90.8</td><td>89.4</td><td>85.4</td><td class="col-avg">88.0</td></tr>
+          <tr><td>ADENet</td><td>66.2</td><td>61.8</td><td>61.1</td><td>59.0</td><td>61.1</td><td>66.0</td><td>62.3</td><td>60.0</td><td class="col-avg">62.2</td><td>88.8</td><td>87.2</td><td>85.0</td><td>84.5</td><td>85.0</td><td>89.0</td><td>87.5</td><td>83.6</td><td class="col-avg">86.3</td></tr>
+          <tr><td>Light-ASD</td><td>76.0</td><td>69.7</td><td>71.7</td><td>68.8</td><td>71.7</td><td>75.4</td><td>70.3</td><td>68.4</td><td class="col-avg">71.5</td><td>91.5</td><td>90.3</td><td>88.4</td><td>88.1</td><td>88.4</td><td>92.0</td><td>90.5</td><td>86.7</td><td class="col-avg">89.5</td></tr>
+          <tr class="ours"><td>Ours</td><td>76.1</td><td>71.2</td><td>71.8</td><td>70.0</td><td>71.8</td><td>76.6</td><td>72.4</td><td>70.1</td><td class="col-avg">72.5</td><td>92.0</td><td>90.8</td><td>89.1</td><td>88.9</td><td>89.1</td><td>92.3</td><td>91.0</td><td>88.3</td><td class="col-avg">90.2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">On DEMAND, C&sup3;ASD gains <strong>+1.0%</strong> average mAP under object occlusion and <strong>+0.7%</strong> under pixelation, consistently leading across all eight environments.</p>
+  </section>
+</div>
+
+<!-- ==================== RESULTS: SINGLE-MODALITY & GENERALIZATION ==================== -->
+<div class="wrap">
+  <section id="more-results">
+    <p class="eyebrow">Results &middot; Single-modality &amp; generalization</p>
+    <h2>Also robust on each axis alone</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Object Occ. + Noise</th>
+            <th>Pixelated</th>
+            <th>WASD (in-the-wild)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>TalkNet</td><td>70.73</td><td>92.12</td><td>78.4</td></tr>
+          <tr><td>ADENet</td><td>66.36</td><td>89.04</td><td>85.6</td></tr>
+          <tr><td>Light-ASD</td><td>76.86</td><td>93.15</td><td>85.3</td></tr>
+          <tr class="ours"><td>Ours</td><td>78.90 (+2.04)</td><td>93.47</td><td>86.1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Under visual-only object occlusion, inter-modality alignment lets the clean audio stream compensate for degraded video (<strong>+2.04%</strong>). On WASD, C&sup3;ASD generalizes across a full dataset shift with no fine-tuning, suggesting the learned representations are transferable rather than dataset-specific.</p>
+  </section>
+</div>
+
+<!-- ==================== ABLATION ==================== -->
+<div class="wrap">
+  <section id="ablation">
+    <p class="eyebrow">Ablation &middot; Joint audio&ndash;visual corruption</p>
+    <h2>Every loss earns its place</h2>
+    <p>
+      We ablate each consistency loss under the hardest regime &mdash; simultaneous audio&ndash;visual corruption on the eight DEMAND environments (mAP&nbsp;%). Every constraint delivers a large gain over the unregularized baseline (82.27), and the three are complementary: combining all of them reaches the best average of <strong>90.19</strong>. Inter-modality alignment gives the biggest single jump, while prediction-level consistency adds the most on top of the embedding-level objectives.
+    </p>
+
+    <p class="table-label">Table A.2 &mdash; Ablation under joint audio&ndash;visual corruption (mAP %)</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Inter</th><th>Intra</th><th>Pred</th>
+            <th>Park</th><th>Cafe</th><th>Metro</th><th>River</th><th>Rest.</th><th>Cafeter.</th><th>Pub.Sta.</th><th>Meet.</th><th class="col-avg">Avg</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="check-off">&cross;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-off">&cross;</span></td><td>85.09</td><td>80.50</td><td>85.86</td><td>83.62</td><td>79.94</td><td>80.50</td><td>83.83</td><td>78.85</td><td class="col-avg">82.27</td></tr>
+          <tr><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-off">&cross;</span></td><td>91.57</td><td>88.53</td><td>92.00</td><td>90.20</td><td>88.29</td><td>88.53</td><td>90.61</td><td>87.63</td><td class="col-avg">89.67</td></tr>
+          <tr><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td>91.78</td><td>88.54</td><td>92.31</td><td>90.79</td><td>88.26</td><td>88.54</td><td>90.89</td><td>87.67</td><td class="col-avg">89.85</td></tr>
+          <tr><td><span class="check-off">&cross;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td>91.66</td><td>88.68</td><td>92.01</td><td>90.61</td><td>88.42</td><td>88.68</td><td>90.67</td><td>87.69</td><td class="col-avg">89.96</td></tr>
+          <tr><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td>91.37</td><td>88.13</td><td>91.75</td><td>90.43</td><td>88.17</td><td>88.13</td><td>90.51</td><td>87.36</td><td class="col-avg">89.48</td></tr>
+          <tr><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td>92.07</td><td>89.08</td><td>92.29</td><td>90.67</td><td>88.62</td><td>89.08</td><td>90.78</td><td>88.14</td><td class="col-avg">90.09</td></tr>
+          <tr><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>91.66</td><td>88.68</td><td>92.01</td><td>90.61</td><td>88.42</td><td>88.68</td><td>90.67</td><td>87.69</td><td class="col-avg">89.96</td></tr>
+          <tr class="ours"><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>92.00</td><td>89.11</td><td>92.28</td><td>90.79</td><td>88.91</td><td>89.11</td><td>91.03</td><td>88.30</td><td class="col-avg">90.19</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Each loss individually lifts the baseline by roughly <strong>+7&ndash;8%</strong> average mAP, and the full combination (&check;&check;&check;) is best at <strong>90.19</strong> &mdash; a <strong>+7.92%</strong> gain over the unregularized model.</p>
+  </section>
+</div>
+
+<!-- ==================== BIBTEX ==================== -->
+<div class="wrap">
+  <section>
+    <p class="eyebrow">Citation</p>
+    <h2>BibTeX</h2>
+    <div class="bibtex-block">
+      <button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent.trim())">Copy</button>
+<pre>@inproceedings{hong2026c3asd,
+  title     = {C$^3$ASD: Multi-Level Consistency-Driven Representation
+               Learning for Robust Active Speaker Detection},
+  author    = {Hong, Jin and Park, Jisoo and Kwon, Junseok},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}</pre>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="wrap">
+    Chung-Ang University, Seoul, Republic of Korea<br>
+    Website template inspired by <a href="https://nerfies.github.io" target="_blank">Nerfies</a>.
+    Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
+  </div>
+</footer>
+
+</body>
+</html>
