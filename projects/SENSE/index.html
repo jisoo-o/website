@@ -71,13 +71,6 @@
 
     .hero h1 { font-size: 2rem; font-weight: 700; margin: 0 0 14px; }
 
-    .hero .subtitle {
-      font-size: 1.05rem;
-      color: var(--ink-soft);
-      margin: 0 auto 24px;
-      max-width: 660px;
-    }
-
     .authors { font-size: 1.02rem; margin: 0 0 4px; }
     .authors strong { font-weight: 600; }
 
@@ -298,6 +291,7 @@
     /* ========== Responsive ========== */
     @media (max-width: 760px) {
       .hero h1 { font-size: 1.5rem; }
+      .h1-break { display: none; }
       .sample-grid { grid-template-columns: 1fr; }
       .stat-row { grid-template-columns: repeat(2, 1fr); }
       section { padding: 28px 0; }
@@ -314,8 +308,7 @@
 <div class="wrap">
   <div class="hero">
     <div class="venue-pill">NeurIPS 2026</div>
-    <h1>SENSE: Semantic Neural Speech Synthesis from Brain Dynamics via Spatial Graph Encoding</h1>
-    <p class="subtitle">A framework that reconstructs speech waveforms from EEG by combining a graph encoder over electrode geometry with semantic conditioning on a pretrained embedding space.</p>
+    <h1>SENSE: Semantic Neural Speech Synthesis<br class="h1-break">from Brain Dynamics via Spatial Graph Encoding</h1>
     <p class="authors"><strong>Jisoo Park</strong>&sup1;*, <strong>Seonghak Lee</strong>&sup1;, <strong>Hyojin Park</strong>&sup2;, <strong>Junseok Kwon</strong>&sup1;&dagger;</p>
     <p class="affiliation">&sup1;Chung-Ang University, South Korea &nbsp;&middot;&nbsp; &sup2;University of Birmingham, United Kingdom</p>
     <p class="affiliation"><a href="mailto:susiehome@cau.ac.kr">susiehome@cau.ac.kr</a></p>
