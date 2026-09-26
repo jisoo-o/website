@@ -270,7 +270,6 @@
       letter-spacing: 0.03em;
     }
 
-    .col-key { background: rgba(23, 114, 208, 0.05) !important; }
     .std { color: var(--ink-soft); font-weight: 400; font-size: 0.92em; }
 
     .table-note { font-size: 0.85rem; color: var(--ink-soft); margin: 8px 0 0; line-height: 1.55; }
@@ -510,23 +509,23 @@
             <th>MCD &darr;</th>
             <th>Mel-Corr &uarr;</th>
             <th>STOI &uarr;</th>
-            <th class="col-key">WER &darr;</th>
+            <th>WER &darr;</th>
             <th>BERT-R &uarr;</th>
             <th>CLIP-Sim &uarr;</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="group-start"><td>FESDE</td><td class="split-label">Both</td><td>11.80 <span class="std">&plusmn;0.12</span></td><td>19.87 <span class="std">&plusmn;1.97</span></td><td>0.2785</td><td class="col-key">1.2186</td><td>0.0381</td><td>0.7557</td></tr>
-          <tr><td>FE-Phoneme</td><td class="split-label">Both</td><td>10.52 <span class="std">&plusmn;0.08</span></td><td>28.29 <span class="std">&plusmn;1.34</span></td><td>0.3979</td><td class="col-key">1.1610</td><td>0.0428</td><td>0.7509</td></tr>
-          <tr class="ours"><td>SENSE</td><td class="split-label">Both</td><td>10.44 <span class="std">&plusmn;0.10</span></td><td>31.18 <span class="std">&plusmn;0.60</span></td><td>0.3996</td><td class="col-key">1.0186</td><td>0.0852</td><td>0.7654</td></tr>
+          <tr class="group-start"><td>FESDE</td><td class="split-label">Both</td><td>11.80 <span class="std">&plusmn;0.12</span></td><td>19.87 <span class="std">&plusmn;1.97</span></td><td>0.2785</td><td>1.2186</td><td>0.0381</td><td>0.7557</td></tr>
+          <tr><td>FE-Phoneme</td><td class="split-label">Both</td><td>10.52 <span class="std">&plusmn;0.08</span></td><td>28.29 <span class="std">&plusmn;1.34</span></td><td>0.3979</td><td>1.1610</td><td>0.0428</td><td>0.7509</td></tr>
+          <tr class="ours"><td>SENSE</td><td class="split-label">Both</td><td>10.44 <span class="std">&plusmn;0.10</span></td><td>31.18 <span class="std">&plusmn;0.60</span></td><td>0.3996</td><td>1.0186</td><td>0.0852</td><td>0.7654</td></tr>
 
-          <tr class="group-start"><td>FESDE</td><td class="split-label">Audio</td><td>11.71 <span class="std">&plusmn;0.04</span></td><td>19.14 <span class="std">&plusmn;0.47</span></td><td>0.2792</td><td class="col-key">1.2125</td><td>0.0289</td><td>0.7601</td></tr>
-          <tr><td>FE-Phoneme</td><td class="split-label">Audio</td><td>10.73 <span class="std">&plusmn;0.06</span></td><td>26.53 <span class="std">&plusmn;0.30</span></td><td>0.3918</td><td class="col-key">1.1360</td><td>0.0602</td><td>0.7554</td></tr>
-          <tr class="ours"><td>SENSE</td><td class="split-label">Audio</td><td>10.44 <span class="std">&plusmn;0.01</span></td><td>28.50 <span class="std">&plusmn;0.24</span></td><td>0.4039</td><td class="col-key">1.0375</td><td>0.0959</td><td>0.7601</td></tr>
+          <tr class="group-start"><td>FESDE</td><td class="split-label">Audio</td><td>11.71 <span class="std">&plusmn;0.04</span></td><td>19.14 <span class="std">&plusmn;0.47</span></td><td>0.2792</td><td>1.2125</td><td>0.0289</td><td>0.7601</td></tr>
+          <tr><td>FE-Phoneme</td><td class="split-label">Audio</td><td>10.73 <span class="std">&plusmn;0.06</span></td><td>26.53 <span class="std">&plusmn;0.30</span></td><td>0.3918</td><td>1.1360</td><td>0.0602</td><td>0.7554</td></tr>
+          <tr class="ours"><td>SENSE</td><td class="split-label">Audio</td><td>10.44 <span class="std">&plusmn;0.01</span></td><td>28.50 <span class="std">&plusmn;0.24</span></td><td>0.4039</td><td>1.0375</td><td>0.0959</td><td>0.7601</td></tr>
 
-          <tr class="group-start"><td>FESDE</td><td class="split-label">Subject</td><td>11.73 <span class="std">&plusmn;0.04</span></td><td>18.70 <span class="std">&plusmn;0.29</span></td><td>0.2744</td><td class="col-key">1.2171</td><td>0.0269</td><td>0.7587</td></tr>
-          <tr><td>FE-Phoneme</td><td class="split-label">Subject</td><td>10.65 <span class="std">&plusmn;0.02</span></td><td>26.90 <span class="std">&plusmn;0.08</span></td><td>0.3806</td><td class="col-key">1.1231</td><td>0.0564</td><td>0.7555</td></tr>
-          <tr class="ours"><td>SENSE</td><td class="split-label">Subject</td><td>9.928 <span class="std">&plusmn;0.03</span></td><td>32.07 <span class="std">&plusmn;0.14</span></td><td>0.4126</td><td class="col-key">0.9948</td><td>0.1088</td><td>0.7647</td></tr>
+          <tr class="group-start"><td>FESDE</td><td class="split-label">Subject</td><td>11.73 <span class="std">&plusmn;0.04</span></td><td>18.70 <span class="std">&plusmn;0.29</span></td><td>0.2744</td><td>1.2171</td><td>0.0269</td><td>0.7587</td></tr>
+          <tr><td>FE-Phoneme</td><td class="split-label">Subject</td><td>10.65 <span class="std">&plusmn;0.02</span></td><td>26.90 <span class="std">&plusmn;0.08</span></td><td>0.3806</td><td>1.1231</td><td>0.0564</td><td>0.7555</td></tr>
+          <tr class="ours"><td>SENSE</td><td class="split-label">Subject</td><td>9.928 <span class="std">&plusmn;0.03</span></td><td>32.07 <span class="std">&plusmn;0.14</span></td><td>0.4126</td><td>0.9948</td><td>0.1088</td><td>0.7647</td></tr>
         </tbody>
       </table>
     </div>
@@ -580,17 +579,17 @@
           <tr>
             <th>Model</th>
             <th>Ch.Att</th><th>GNN</th><th>Skip</th><th>CTC</th><th>ESC</th>
-            <th>MCD &darr;</th><th>Mel-Corr &uarr;</th><th>STOI &uarr;</th><th class="col-key">WER &darr;</th><th>BERT-R &uarr;</th><th>CLIP-Sim &uarr;</th>
+            <th>MCD &darr;</th><th>Mel-Corr &uarr;</th><th>STOI &uarr;</th><th>WER &darr;</th><th>BERT-R &uarr;</th><th>CLIP-Sim &uarr;</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="ours"><td>SENSE</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>9.93 <span class="std">&plusmn;0.03</span></td><td>32.07 <span class="std">&plusmn;0.14</span></td><td>0.4126</td><td class="col-key">0.9948</td><td>0.1088</td><td>0.7647</td></tr>
-          <tr><td>w/o ESC</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td>10.34 <span class="std">&plusmn;0.03</span></td><td>29.43 <span class="std">&plusmn;0.27</span></td><td>0.4016</td><td class="col-key">1.0323</td><td>0.0763</td><td>0.7601</td></tr>
-          <tr><td>w/ shuffled ESC</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>shuf.</td><td>10.38 <span class="std">&plusmn;0.04</span></td><td>29.25 <span class="std">&plusmn;0.28</span></td><td>0.4002</td><td class="col-key">1.0385</td><td>0.0721</td><td>0.7595</td></tr>
-          <tr><td>w/o CTC</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td>10.50 <span class="std">&plusmn;0.01</span></td><td>27.24 <span class="std">&plusmn;0.27</span></td><td>0.3721</td><td class="col-key">1.0488</td><td>0.0588</td><td>0.7624</td></tr>
-          <tr><td>w/o CNN Skip</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>10.40 <span class="std">&plusmn;0.01</span></td><td>29.64 <span class="std">&plusmn;0.25</span></td><td>0.3970</td><td class="col-key">1.0306</td><td>0.0724</td><td>0.7579</td></tr>
-          <tr><td>w/o GNN</td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>10.11 <span class="std">&plusmn;0.02</span></td><td>29.54 <span class="std">&plusmn;0.22</span></td><td>0.3951</td><td class="col-key">1.0355</td><td>0.0788</td><td>0.7577</td></tr>
-          <tr><td>w/o Ch.Att</td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>10.24 <span class="std">&plusmn;0.01</span></td><td>29.08 <span class="std">&plusmn;0.16</span></td><td>0.4046</td><td class="col-key">1.0170</td><td>0.0926</td><td>0.7639</td></tr>
+          <tr class="ours"><td>SENSE</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>9.93 <span class="std">&plusmn;0.03</span></td><td>32.07 <span class="std">&plusmn;0.14</span></td><td>0.4126</td><td>0.9948</td><td>0.1088</td><td>0.7647</td></tr>
+          <tr><td>w/o ESC</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td>10.34 <span class="std">&plusmn;0.03</span></td><td>29.43 <span class="std">&plusmn;0.27</span></td><td>0.4016</td><td>1.0323</td><td>0.0763</td><td>0.7601</td></tr>
+          <tr><td>w/ shuffled ESC</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>shuf.</td><td>10.38 <span class="std">&plusmn;0.04</span></td><td>29.25 <span class="std">&plusmn;0.28</span></td><td>0.4002</td><td>1.0385</td><td>0.0721</td><td>0.7595</td></tr>
+          <tr><td>w/o CTC</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td>10.50 <span class="std">&plusmn;0.01</span></td><td>27.24 <span class="std">&plusmn;0.27</span></td><td>0.3721</td><td>1.0488</td><td>0.0588</td><td>0.7624</td></tr>
+          <tr><td>w/o CNN Skip</td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>10.40 <span class="std">&plusmn;0.01</span></td><td>29.64 <span class="std">&plusmn;0.25</span></td><td>0.3970</td><td>1.0306</td><td>0.0724</td><td>0.7579</td></tr>
+          <tr><td>w/o GNN</td><td><span class="check-on">&check;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>10.11 <span class="std">&plusmn;0.02</span></td><td>29.54 <span class="std">&plusmn;0.22</span></td><td>0.3951</td><td>1.0355</td><td>0.0788</td><td>0.7577</td></tr>
+          <tr><td>w/o Ch.Att</td><td><span class="check-off">&cross;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td><span class="check-on">&check;</span></td><td>10.24 <span class="std">&plusmn;0.01</span></td><td>29.08 <span class="std">&plusmn;0.16</span></td><td>0.4046</td><td>1.0170</td><td>0.0926</td><td>0.7639</td></tr>
         </tbody>
       </table>
     </div>
