@@ -315,13 +315,13 @@
   <div class="hero">
     <div class="venue-pill">NeurIPS 2026</div>
     <h1>SENSE: Semantic Neural Speech Synthesis from Brain Dynamics via Spatial Graph Encoding</h1>
-    <p class="subtitle">EEG-to-speech has been treated as an acoustic problem. We show the brain signal carries meaning too &mdash; and that using it changes what the model can do.</p>
+    <p class="subtitle">A framework that reconstructs speech waveforms from EEG by combining a graph encoder over electrode geometry with semantic conditioning on a pretrained embedding space.</p>
     <p class="authors"><strong>Jisoo Park</strong>&sup1;*, <strong>Seonghak Lee</strong>&sup1;, <strong>Hyojin Park</strong>&sup2;, <strong>Junseok Kwon</strong>&sup1;&dagger;</p>
     <p class="affiliation">&sup1;Chung-Ang University, South Korea &nbsp;&middot;&nbsp; &sup2;University of Birmingham, United Kingdom</p>
     <p class="affiliation"><a href="mailto:susiehome@cau.ac.kr">susiehome@cau.ac.kr</a></p>
     <p class="equal-note">* Work done during a research visit to the University of Birmingham. &nbsp;&dagger; Corresponding author.</p>
     <div class="hero-buttons">
-      <a class="hero-btn" href="#samples">&#128266; Listen</a>
+      <a class="hero-btn" href="#samples">&#128266; Audio samples</a>
       <a class="hero-btn" href="#results">&#128202; Results</a>
     </div>
   </div>
@@ -331,28 +331,28 @@
 <div class="wrap">
   <section>
     <figure class="figure-slot">
-      <img src="assets/fig1.jpg" alt="Channel importance across the scalp: prior work vs. SENSE"
+      <img src="assets/fig1.jpg" alt="Channel importance across the scalp for prior work and SENSE"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <div class="placeholder">fig1.jpg</div>
       <figcaption>
-        <strong>Where the model looks.</strong> Prior work spreads importance across the scalp with no clear anatomical structure (left). SENSE concentrates on three regions speech neuroscience would predict &mdash; auditory, sensorimotor, centro-parietal (right). Nothing in the design asked for the last two.
+        <strong>Figure 1.</strong> EEG recorded during speech perception carries acoustic, sensorimotor, and lexical-semantic information distributed across the scalp. Prior work yields channel patterns with no clear anatomical structure (left). SENSE recovers attribution aligned with all three functional regions (right).
       </figcaption>
     </figure>
   </section>
 </div>
 
-<!-- ==================== THE IDEA ==================== -->
+<!-- ==================== ABSTRACT ==================== -->
 <div class="wrap">
   <section>
-    <p class="eyebrow">The idea</p>
+    <p class="eyebrow">Abstract</p>
     <p class="lead">
-      Every EEG-to-speech model so far optimizes waveform fidelity: make the audio look right and hope the words follow. They don't. You get speech-shaped sound with the wrong words in it.
+      Existing EEG-to-speech approaches formulate the task as acoustic reconstruction, optimizing waveform fidelity while ignoring whether the generated speech preserves semantic content. We argue that EEG signals carry semantic as well as acoustic information, and that two limitations follow from the acoustic-only framing.
     </p>
     <p>
-      We think the framing is wrong. EEG recorded while someone listens carries <strong>semantic</strong> information, not just acoustic &mdash; and the standard benchmark hands you a way to use it. The N400 corpus pairs each sentence frame with either a congruent or an incongruent final word, precisely to isolate semantic processing. Prior models train on both identically, throwing that structure away.
+      First, prior encoders treat the 128 electrodes as unordered feature dimensions, ignoring their spatial relationships. Second, they use the N400 corpus in a paradigm-agnostic manner, although the corpus is built around a congruency distinction designed to isolate semantic processing.
     </p>
     <p>
-      <strong>SENSE</strong> changes two things. It treats the 128 electrodes as a <strong>graph over their real scalp geometry</strong> instead of an unordered feature vector, and it aligns the EEG latent to a frozen CLIP text embedding <strong>using congruent trials only</strong> &mdash; the trials where the brain response actually reflects coherent understanding of the word.
+      <strong>SENSE</strong> addresses both. A graph-based encoder models the electrodes over their scalp geometry, and <strong>EEG Semantic Conditioning (ESC)</strong> aligns the EEG latent with a frozen CLIP text embedding using congruent trials only. On the N400 dataset, SENSE outperforms prior methods on both acoustic and semantic metrics, with the largest gains on unseen participants.
     </p>
 
     <div class="stat-row">
@@ -377,20 +377,20 @@
         <div class="stat-base">best prior 0.056</div>
       </div>
     </div>
-    <p class="stat-cap">Unseen-subject split &mdash; participants the model never trained on. Averaged over 5 seeds.</p>
+    <p class="stat-cap">Unseen-subject split, averaged over 5 seeds.</p>
   </section>
 </div>
 
 <!-- ==================== AUDIO SAMPLES ==================== -->
 <div class="wrap">
   <section id="samples">
-    <p class="eyebrow">Listen</p>
-    <h2>Speech reconstructed from EEG alone</h2>
+    <p class="eyebrow">Audio samples</p>
+    <h2>Speech generated from EEG alone</h2>
     <p>
-      No text, no guided sampling &mdash; brain activity in, waveform out. Every clip comes from a participant the model never trained on. Transcriptions are Whisper-large, with matching words in bold.
+      All samples come from the unseen-subject split. Generation is conditioned on EEG only, without text or guided sampling. Transcriptions are produced by Whisper-large, with words matching the stimulus shown in bold.
     </p>
     <p class="table-note" style="margin-bottom:4px;">
-      These are best-scoring examples. The first, third, and fourth are the same trials shown as spectrograms in Figure 3 below.
+      These are best-scoring examples. The first, third, and fourth are the same trials shown as spectrograms in Figure 3.
     </p>
 
     <div class="sample-grid">
@@ -480,21 +480,21 @@
 <div class="wrap">
   <section>
     <p class="eyebrow">Method</p>
-    <h2>How it works</h2>
+    <h2>Structure-aware encoding and semantic conditioning</h2>
 
     <figure class="figure-slot">
       <img src="assets/fig2.png" alt="SENSE training pipeline"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <div class="placeholder">fig2.png</div>
       <figcaption>
-        <strong>Training pipeline.</strong> EEG is encoded into a latent, then mapped to the prior of a VITS speech decoder. Dashed arrows are losses. At inference the phoneme predictor, EEG decoder, and CLIP encoder are all discarded &mdash; only EEG goes in.
+        <strong>Figure 2.</strong> EEG is encoded into a latent representation and mapped to the prior of a VITS speech decoder. Solid arrows indicate the forward data flow, dashed arrows indicate loss supervision. At inference the EEG decoder, phoneme predictor, and CLIP encoder are discarded, and only EEG is required.
       </figcaption>
     </figure>
 
     <ul class="contrib-list">
-      <li><strong>The electrodes form a graph.</strong> 128 nodes at their real BioSemi 3D coordinates, connected by a Gaussian kernel over pairwise distance. Two residual graph-conv layers mix them spatially. A parallel CNN branch recovers channel-specific detail that node-averaging would smear away, and a learnable gate blends the two.</li>
-      <li><strong>Semantic conditioning, congruent trials only.</strong> The EEG latent is projected into the decoder's conditioning space and pulled toward a frozen CLIP text embedding. Restricting this to congruent trials is the trick &mdash; incongruent trials still train the acoustic and phoneme objectives, they just don't get to poison the semantic target.</li>
-      <li><strong>A bridge so the decoder accepts it.</strong> During training the decoder is conditioned at random on one of three things: the EEG vector, the CLIP text vector, or a learnable null. That keeps the EEG vector in-distribution once text disappears at test time.</li>
+      <li><strong>Graph-based spatial encoder.</strong> The 128 electrodes are represented as graph nodes with 3D BioSemi coordinates, connected by a fixed adjacency built from a Gaussian kernel over pairwise distances. Two residual graph-convolution layers mix information spatially. A parallel CNN branch preserves channel-specific detail that node averaging would otherwise attenuate, and a learnable scalar gate combines the two branches.</li>
+      <li><strong>EEG Semantic Conditioning.</strong> The EEG latent is projected into the decoder conditioning space and aligned with a frozen CLIP text embedding under a cosine loss restricted to congruent trials, where the neural response reflects coherent semantic processing of the target word. Incongruent trials still contribute to the acoustic and phoneme objectives.</li>
+      <li><strong>Conditioning bridge.</strong> During training the decoder is conditioned on one of three sources with roughly equal probability: the EEG-derived vector, the CLIP text embedding, or a learnable null embedding. This keeps the EEG vector in distribution when text conditioning is unavailable at inference.</li>
     </ul>
   </section>
 </div>
@@ -503,9 +503,9 @@
 <div class="wrap">
   <section id="results">
     <p class="eyebrow">Results</p>
-    <h2>Every split, every metric</h2>
+    <h2>Comparison with prior methods</h2>
     <p>
-      Three test conditions on the N400 corpus: held-out <strong>sentences</strong> (Audio), held-out <strong>participants</strong> (Subject), and held-out <strong>both</strong>. Semantic metrics use congruent trials only. Five seeds.
+      Three test conditions on the N400 corpus: held-out sentences (Audio), held-out participants (Subject), and held-out both. Semantic metrics are computed on congruent trials only. All results are averaged over five seeds.
     </p>
 
     <div class="table-wrap">
@@ -538,7 +538,7 @@
       </table>
     </div>
     <p class="table-note">
-      The gap is widest on the <strong>unseen-subject</strong> split &mdash; the hardest one, and the one that matters for a real BCI. That suggests SENSE learns what the stimulus was rather than who the participant was. Note also that WER stays near 1.0 throughout: the relative gains are large, the absolute intelligibility is not. This is not a solved problem.
+      SENSE outperforms both baselines across all splits and metrics. The margin is largest on the unseen-subject split, indicating that the learned representations generalize across participants rather than relying on subject-specific cues. Absolute WER remains near 1.0 for all methods, so intelligibility-level reconstruction from EEG remains an open challenge.
     </p>
 
     <figure class="figure-slot">
@@ -546,7 +546,7 @@
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <div class="placeholder">fig3.jpg</div>
       <figcaption>
-        <strong>Figure 3.</strong> Mel-spectrograms with Whisper transcriptions. Bold marks words matching ground truth, underline marks near-misses. SENSE recovers phrase structure and often the content words; the baselines drift into unrelated sentences.
+        <strong>Figure 3.</strong> Mel-spectrograms and Whisper-large transcriptions for ground truth, SENSE, FESDE, and FE-Phoneme. Words matching the ground truth are shown in bold, semantically or phonetically similar words are underlined.
       </figcaption>
     </figure>
   </section>
@@ -556,9 +556,9 @@
 <div class="wrap">
   <section>
     <p class="eyebrow">Cross-subject generalization</p>
-    <h2>Two participants beat eighteen</h2>
+    <h2>Scaling the number of training subjects</h2>
     <p>
-      Train on <em>k</em> participants, test on two the model has never seen. The dashed line is the best baseline trained on all 18. <strong>SENSE passes it on WER at k=2</strong>, and catches up on the acoustic metrics by k=8.
+      Models are trained on <em>k</em> participants and evaluated on a fixed held-out pair. The dashed line marks the strongest baseline trained on all 18 subjects. SENSE exceeds that reference on WER at <em>k</em>=2, and matches it on MCD and Mel-Correlation by <em>k</em>=8.
     </p>
 
     <figure class="figure-slot">
@@ -566,7 +566,7 @@
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <div class="placeholder">fig4.png</div>
       <figcaption>
-        <strong>Figure 4.</strong> Orange circles mark the smallest <em>k</em> at which SENSE first reaches the 18-subject baseline. Shaded bands are &plusmn;1 std over 5 seeds. Since evaluation is always on unseen participants, this is generalization, not in-distribution scaling.
+        <strong>Figure 4.</strong> Performance for <em>k</em> in {2, 4, 8, 18}, evaluated on the held-out pair (sub-23, sub-24). Shaded regions show &plusmn;1 std over 5 seeds. Orange circles mark the smallest <em>k</em> at which SENSE first matches or exceeds the 18-subject baseline. Since evaluation is on unseen participants, these results reflect cross-subject generalization rather than in-distribution scaling.
       </figcaption>
     </figure>
   </section>
@@ -575,10 +575,10 @@
 <!-- ==================== ABLATION ==================== -->
 <div class="wrap">
   <section id="ablation">
-    <p class="eyebrow">What matters</p>
-    <h2>Ablations</h2>
+    <p class="eyebrow">Ablation</p>
+    <h2>Component ablation</h2>
     <p>
-      Every component earns its place. Removing semantic conditioning costs the most on the semantic metrics; removing phoneme supervision costs the most on intelligibility.
+      Each row removes one component from the full model. Removing ESC degrades the semantic metrics, while removing CTC produces the largest increase in WER, indicating that phoneme-level supervision also preserves intelligibility.
     </p>
 
     <div class="table-wrap">
@@ -603,10 +603,10 @@
     </div>
 
     <ul class="finding-list">
-      <li><strong>The semantic signal is real, not just regularization.</strong> Shuffle the CLIP targets within each batch &mdash; same loss, same conditioning bridge, wrong labels &mdash; and BERT-R falls to 0.072, <em>below</em> removing ESC entirely (0.076). The gain depends on the targets being correct.</li>
-      <li><strong>Anatomy beats a learned graph.</strong> We tried GAT-learned edges, fully-connected, and random adjacency. Fixed BioSemi geometry wins on every metric (WER 0.995 vs. 1.018 / 1.095 / 1.081). With only 7,200 training pairs, learning the graph is under-constrained &mdash; but discarding structure is worse still.</li>
-      <li><strong>CLIP beats CLAP, which is surprising.</strong> CLAP is trained for audio&ndash;language alignment, so it ought to suit a speech task better. It doesn't (BERT-R 0.092 vs CLIP's 0.109), and it even loses to text-only SBERT (0.094). Our guess: N400 stimuli lean on concrete, imageable nouns &mdash; <em>chair</em>, <em>dog</em>, <em>ants</em> &mdash; where CLIP's visual grounding gives sharper structure.</li>
-      <li><strong>ESC helps the baselines too, but not enough.</strong> Bolting it onto FESDE and FE-Phoneme improves both (BERT-R 0.045 and 0.070), yet neither reaches SENSE. Encoder and conditioning are complementary, not interchangeable.</li>
+      <li><strong>ESC depends on correct semantic targets.</strong> Permuting the CLIP targets within each batch, while keeping the same loss and conditioning bridge, lowers BERT-R to 0.072, slightly below removing ESC entirely (0.076). The gain therefore comes from genuine EEG-semantic correspondence rather than auxiliary supervision alone.</li>
+      <li><strong>Anatomy-derived adjacency outperforms learned graphs.</strong> Compared against GAT-learned edges, fully-connected, and random adjacency, the fixed BioSemi topology is best on every metric (WER 0.995 against 1.018, 1.095, and 1.081). Learning the graph from only 7,200 training pairs is under-constrained, while removing structure entirely is more harmful.</li>
+      <li><strong>CLIP is the strongest alignment target.</strong> CLIP reaches BERT-R 0.109, ahead of text-only SBERT (0.094) and CLAP (0.092), despite CLAP being trained for audio-language alignment. A likely explanation is that N400 stimuli often involve concrete, image-able nouns, for which CLIP image-text pretraining provides more discriminative semantic structure.</li>
+      <li><strong>ESC complements rather than replaces the encoder.</strong> Adding ESC to FESDE and FE-Phoneme improves both (BERT-R 0.045 and 0.070), but neither reaches SENSE.</li>
     </ul>
 
     <figure class="figure-slot">
@@ -614,7 +614,7 @@
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <div class="placeholder">fig6.png</div>
       <figcaption>
-        <strong>Figure 6.</strong> Cosine similarity between mean EEG embeddings (rows) and text embeddings (columns) for matched words. A brighter diagonal means sharper word-specific alignment; &Delta; is the diagonal-to-offdiagonal gap. CLIP is clearly the cleanest.
+        <strong>Figure 6.</strong> Cosine similarity between mean EEG embeddings (rows) and text embeddings (columns) for matched words. Stronger word-specific alignment appears as a brighter diagonal, and &Delta; is the gap between diagonal and off-diagonal means. CLIP shows the brightest diagonal and the largest gap.
       </figcaption>
     </figure>
   </section>
@@ -624,9 +624,9 @@
 <div class="wrap">
   <section id="attribution">
     <p class="eyebrow">Analysis</p>
-    <h2>The model finds motor cortex on its own</h2>
+    <h2>Channel attribution</h2>
     <p>
-      The channel gate starts with a small positive bias on auditory electrodes and zero everywhere else. Nothing favors sensorimotor or centro-parietal channels. After training, the auditory prior is <em>down</em>-weighted and C3/C4 &mdash; motor cortex &mdash; light up.
+      The channel attention gate is initialized with a positive bias on auditory-related electrodes and zero elsewhere. No prior is placed on sensorimotor or centro-parietal regions. After training, the auditory-prior channels are modestly down-weighted while central electrodes (C3, C4) gain importance, so the resulting pattern emerges from training rather than design.
     </p>
 
     <figure class="figure-slot">
@@ -634,26 +634,13 @@
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <div class="placeholder">fig7.jpg</div>
       <figcaption>
-        <strong>Figure 7.</strong> Per-channel gradient magnitude of the EEG&ndash;CLIP alignment. <strong>(b) No GNN:</strong> centro-parietal only, the classic N400 pattern. <strong>(c) GNN without the skip:</strong> collapses onto central hub electrodes &mdash; an artifact of dense connectivity, not biology. <strong>(d) Full SENSE:</strong> a three-way split across temporal-auditory, motor, and centro-parietal.
+        <strong>Figure 7.</strong> Per-channel gradient magnitude of the EEG-CLIP alignment, normalized per model. (b) Without GNN: centro-parietal concentration consistent with the N400 response. (c) GNN without skip connection: emphasis shifts to central hub electrodes, a topology artifact of dense connectivity. (d) Full SENSE: a distributed pattern over temporal-auditory (TP7, TP8), motor (C3, C4), and centro-parietal (CPz) regions.
       </figcaption>
     </figure>
 
     <p class="table-note">
-      This lines up with a known result &mdash; that passive listening engages sensorimotor cortex &mdash; and supports the premise that EEG-to-speech benefits from channels outside auditory regions. We read these as <strong>model-internal diagnostics, not neural source localization</strong>. Saliency maps have well-documented limits.
+      The prominence of C3 and C4 is consistent with prior findings that speech perception engages sensorimotor cortex during passive listening. We treat these maps as model-internal diagnostics rather than evidence of neural sources, given the known limitations of saliency-based attribution.
     </p>
-  </section>
-</div>
-
-<!-- ==================== LIMITATIONS ==================== -->
-<div class="wrap">
-  <section>
-    <p class="eyebrow">Honest limitations</p>
-    <h2>What this does not show</h2>
-    <ul class="finding-list">
-      <li><strong>The words are mostly still wrong.</strong> WER near 1.0 means word-for-word reconstruction generally fails. The relative improvement is large; the absolute result is not usable.</li>
-      <li><strong>One controlled corpus.</strong> Full waveform synthesis is evaluated only on N400. Naturalistic and active-speech datasets are the obvious next step.</li>
-      <li><strong>Not thought decoding.</strong> This uses a public benchmark collected under prior ethical approval, with no new recruitment or recording. Listening in a lab is not a safeguard; neural data deserves on-device processing, opt-in consent, and real governance, per the UNESCO Recommendation on the Ethics of Neurotechnology (2025).</li>
-    </ul>
   </section>
 </div>
 
