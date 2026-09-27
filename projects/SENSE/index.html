@@ -131,6 +131,10 @@
 
     .stat-cap { font-size: 0.82rem; color: var(--ink-soft); margin: 8px 0 0; }
 
+    /* ========== Teaser animation ========== */
+    .teaser { margin: 0 0 8px; }
+    .teaser video { width: 100%; height: auto; display: block; }
+
     /* ========== Figures ========== */
     .figure-slot { margin: 24px 0; text-align: center; }
 
@@ -323,6 +327,16 @@
 <!-- ==================== TEASER ==================== -->
 <div class="wrap">
   <section>
+    <figure class="figure-slot teaser">
+      <video autoplay loop muted playsinline poster="assets/teaser_poster.jpg">
+        <source src="assets/teaser.mp4" type="video/mp4">
+        <img src="assets/teaser.gif" alt="SENSE overview animation">
+      </video>
+      <figcaption>
+        SENSE reads EEG recorded while a person listens, encodes it over the electrode geometry of the scalp, aligns that representation with a frozen CLIP text embedding on congruent trials only, and synthesizes the speech waveform. At inference only EEG is used.
+      </figcaption>
+    </figure>
+
     <figure class="figure-slot">
       <img src="assets/fig1.jpg" alt="Channel importance across the scalp for prior work and SENSE"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
